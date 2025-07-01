@@ -23,6 +23,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from pathlib import Path
 
+
 def load_json(file_path):
     """Load a JSON file."""
     try:
@@ -32,16 +33,34 @@ def load_json(file_path):
         print(f"Error loading {file_path}: {e}")
         return None
 
+def print_sample_document(data):
+    """Print a sample document to understand its structure."""
+    if data and len(data) > 0:
+        sample = data[0]
+        print("\nSample Document Structure:")
+        for key, value in sample.items():
+            if isinstance(value, list) and len(value) > 0:
+                print(f"- {key}: {type(value)} with {len(value)} items")
+                if key == "entities" and len(value) > 0:
+                    print(f"  Sample entity: {value[0]}")
+                elif key == "relations" and len(value) > 0:
+                    print(f"  Sample relation: {value[0]}")
+                elif key == "sents" and len(value) > 0:
+                    print(f"  Sample sentence: {value[0][:5]}...")
+            else:
+                print(f"- {key}: {type(value)}")
+
 def get_dataset_paths():
     """Get paths to dataset files."""
     # Navigate to the data directory (assuming script is in scripts/ directory)
     current_dir = Path(__file__).parent
     data_dir = current_dir.parent / "data"
+    raw_data_dir = data_dir / "raw_data"
     
     dataset_files = {
-        "train": data_dir / "train_annotated.json",
-        "dev": data_dir / "dev.json",
-        "test": data_dir / "test.json"
+        "train": raw_data_dir / "train_annotated.json",
+        "dev": raw_data_dir / "dev.json",
+        "test": raw_data_dir / "test.json"
     }
     
     # Check if files exist
@@ -58,24 +77,49 @@ def analyze_dataset(data):
     
     # Basic counts
     num_docs = len(data)
-    total_entities = sum(len(doc.get("entities", [])) for doc in data)
-    total_relations = sum(len(doc.get("relations", [])) for doc in data if "relations" in doc)
+    
+    # Print sample document to understand structure
+    print_sample_document(data)
+    
+    # Extract entities and relations
+    total_entities = 0
+    total_relations = 0
+    entity_types = Counter()
+    relation_types = Counter()
     
     # Count sentences and tokens
-    total_sents = sum(len(doc.get("sents", [])) for doc in data)
-    total_tokens = sum(sum(len(sent) for sent in doc.get("sents", [])) for doc in data)
+    total_sents = 0
+    total_tokens = 0
     
-    # Entity type distribution
-    entity_types = Counter()
+    # Analyze each document
     for doc in data:
-        for entity in doc.get("entities", []):
-            entity_types[entity.get("type", "unknown")] += 1
-    
-    # Relation type distribution
-    relation_types = Counter()
-    for doc in data:
-        for relation in doc.get("relations", []):
-            relation_types[relation.get("r", "unknown")] += 1
+        # Process entities
+        doc_entities = doc.get("vertexSet", []) if "vertexSet" in doc else doc.get("entities", [])
+        total_entities += len(doc_entities)
+        
+        # Extract entity types
+        for entity in doc_entities:
+            # Handle different entity formats
+            if isinstance(entity, dict) and "type" in entity:
+                entity_types[entity["type"]] += 1
+            elif isinstance(entity, list) and len(entity) > 0:
+                # In DocRED, vertexSet is a list of mentions of the same entity
+                if "type" in entity[0]:
+                    entity_types[entity[0]["type"]] += 1
+        
+        # Process relations
+        doc_relations = doc.get("labels", []) if "labels" in doc else doc.get("relations", [])
+        total_relations += len(doc_relations)
+        
+        # Extract relation types
+        for relation in doc_relations:
+            rel_type = relation.get("r", relation.get("relation", "unknown"))
+            relation_types[rel_type] += 1
+        
+        # Process sentences
+        sents = doc.get("sents", [])
+        total_sents += len(sents)
+        total_tokens += sum(len(sent) for sent in sents)
     
     return {
         "num_docs": num_docs,
@@ -93,7 +137,17 @@ def analyze_dataset(data):
 
 def plot_distribution(counter, title, filename=None):
     """Plot distribution of a counter."""
-    labels, values = zip(*counter.most_common(10))  # Get top 10
+    if not counter:
+        print(f"Warning: No data to plot for {title}")
+        return
+        
+    # Get the top 10 items or all if less than 10
+    most_common = counter.most_common(10)
+    if not most_common:
+        print(f"Warning: Counter is empty for {title}")
+        return
+        
+    labels, values = zip(*most_common)  # Get top 10
     
     # Create horizontal bar chart
     plt.figure(figsize=(10, 6))
@@ -120,12 +174,20 @@ def print_statistics(stats, split_name):
     print(f"Total tokens: {stats['total_tokens']} (avg: {stats['avg_tokens_per_doc']:.2f} per doc)")
     
     print("\nTop 5 entity types:")
-    for entity_type, count in stats['entity_types'].most_common(5):
-        print(f"  - {entity_type}: {count}")
+    entity_most_common = stats['entity_types'].most_common(5)
+    if entity_most_common:
+        for entity_type, count in entity_most_common:
+            print(f"  - {entity_type}: {count}")
+    else:
+        print("  No entity types found")
     
     print("\nTop 5 relation types:")
-    for relation_type, count in stats['relation_types'].most_common(5):
-        print(f"  - {relation_type}: {count}")
+    relation_most_common = stats['relation_types'].most_common(5)
+    if relation_most_common:
+        for relation_type, count in relation_most_common:
+            print(f"  - {relation_type}: {count}")
+    else:
+        print("  No relation types found")
 
 def main():
     """Main function to explore the DocRED dataset."""
@@ -155,16 +217,19 @@ def main():
             results_dir.mkdir(exist_ok=True)
             
             # Generate plots
-            plot_distribution(
-                stats['entity_types'], 
-                f'Entity Type Distribution ({split})',
-                results_dir / f"{split}_entity_types.png"
-            )
-            plot_distribution(
-                stats['relation_types'], 
-                f'Relation Type Distribution ({split})',
-                results_dir / f"{split}_relation_types.png"
-            )
+            if stats['entity_types']:
+                plot_distribution(
+                    stats['entity_types'], 
+                    f'Entity Type Distribution ({split})',
+                    results_dir / f"{split}_entity_types.png"
+                )
+            
+            if stats['relation_types']:
+                plot_distribution(
+                    stats['relation_types'], 
+                    f'Relation Type Distribution ({split})',
+                    results_dir / f"{split}_relation_types.png"
+                )
     
     print("\nAnalysis complete. Plots saved to the 'results' directory.")
 
