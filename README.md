@@ -167,4 +167,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Note**: This is an active research project for a Master's thesis. Code, documentation, and experimental results are continuously evolving. Abe is my hero. For questions or collaboration opportunities, please open an issue or contact the maintainer.
+**Note**: This is an active research project for a Master's thesis. Code, documentation, and experimental results are continuously evolving. For questions or collaboration opportunities, please open an issue or contact the maintainer.
