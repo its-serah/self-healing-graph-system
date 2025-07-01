@@ -14,8 +14,3 @@
 ### Experiment 1: DocRED SVO Healing
 Implementation of self-healing mechanisms using DocRED dataset. See [exp1_docred_svo_healing/README.md](experiments/exp1_docred_svo_healing/README.md) for details.
 
-### Experiment 2: Arabic SVO Evaluation
-Evaluation of SVO patterns in Arabic text. (Coming soon)
-
-### Experiment 3: Error Typing
-Analysis and classification of error types. (Coming soon)
