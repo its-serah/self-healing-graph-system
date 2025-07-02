@@ -1,0 +1,29 @@
+[
+  {
+    "triple": {
+      "s": "Person1",
+      "p": "works_at",
+      "o": "Company1"
+    },
+    "tags": [],
+    "state": "q2"
+  },
+  {
+    "triple": {
+      "s": "Person2",
+      "p": "lives_in",
+      "o": "City1"
+    },
+    "tags": [],
+    "state": "q2"
+  },
+  {
+    "triple": {
+      "s": "Company1",
+      "p": "located_in",
+      "o": "Country1"
+    },
+    "tags": [],
+    "state": "q2"
+  }
+]
