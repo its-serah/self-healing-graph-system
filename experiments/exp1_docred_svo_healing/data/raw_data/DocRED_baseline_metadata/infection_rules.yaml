@@ -1,0 +1,23 @@
+# Thresholds I can tweak later
+confidence_cutoff: 0.60 #im going with 0.60 for now
+
+functional_predicates:
+  - birthDate
+  - birthPlace
+  - socialSecurityNumber
+
+type_map:
+  birthDate: date        # object **must** parse as YYYY-MM-DD
+  birthPlace: city       # object should match /^[A-Za-z\-\s]+$/
+  age: integer
+
+rules:
+  R1:
+    trigger: "confidence < confidence_cutoff"
+    action:  "flag_infected"
+  R2:
+    trigger: "duplicate (subject,predicate) with different object for functional_predicates"
+    action:  "keep_highest_confidence"
+  R3:
+    trigger: "object_type_mismatch with type_map"
+    action:  "cast_or_quarantine"
