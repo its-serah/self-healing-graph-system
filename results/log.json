@@ -3,7 +3,8 @@
     "triple": {
       "s": "Person1",
       "p": "works_at",
-      "o": "Company1"
+      "o": "Company1",
+      "confidence": "1.0"
     },
     "tags": [],
     "state": "q2"
@@ -12,7 +13,8 @@
     "triple": {
       "s": "Person2",
       "p": "lives_in",
-      "o": "City1"
+      "o": "City1",
+      "confidence": "1.0"
     },
     "tags": [],
     "state": "q2"
@@ -21,7 +23,52 @@
     "triple": {
       "s": "Company1",
       "p": "located_in",
-      "o": "Country1"
+      "o": "Country1",
+      "confidence": "1.0"
+    },
+    "tags": [],
+    "state": "q2"
+  },
+  {
+    "triple": {
+      "s": "Person3",
+      "p": "birthDate",
+      "o": "1990",
+      "confidence": "1.0"
+    },
+    "tags": [
+      "R3"
+    ],
+    "state": "q1"
+  },
+  {
+    "triple": {
+      "s": "Person4",
+      "p": "birthDate",
+      "o": "1990-01-01",
+      "confidence": "1.0"
+    },
+    "tags": [],
+    "state": "q2"
+  },
+  {
+    "triple": {
+      "s": "Person5",
+      "p": "birthPlace",
+      "o": "London",
+      "confidence": "0.55"
+    },
+    "tags": [
+      "R1"
+    ],
+    "state": "q1"
+  },
+  {
+    "triple": {
+      "s": "Person5",
+      "p": "birthPlace",
+      "o": "Paris",
+      "confidence": "0.95"
     },
     "tags": [],
     "state": "q2"

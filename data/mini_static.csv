@@ -1,4 +1,8 @@
-s,p,o
-Person1,works_at,Company1
-Person2,lives_in,City1
-Company1,located_in,Country1
+s,p,o,confidence
+Person1,works_at,Company1,1.0
+Person2,lives_in,City1,1.0
+Company1,located_in,Country1,1.0
+Person3,birthDate,1990,1.0
+Person4,birthDate,1990-01-01,1.0
+Person5,birthPlace,London,0.55
+Person5,birthPlace,Paris,0.95
