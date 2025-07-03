@@ -82,13 +82,16 @@ def create_graph_visualization(triples, output_file, title, infection_info=None)
         # Set edge width based on confidence
         width = max(1, confidence * 5)
         
+        # Format confidence score for display
+        confidence_display = f"{confidence:.2f}"
+        
         edges.append({
             "from": s,
             "to": o,
             "label": predicate,
             "color": color,
             "width": width,
-            "title": f"{predicate} (confidence: {confidence})"
+            "title": f"{predicate} (confidence: {confidence_display})"
         })
     
     # Create HTML
