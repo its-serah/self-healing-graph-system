@@ -1,25 +1,30 @@
 #!/usr/bin/env python
-import json, datetime, pathlib, sys
+import pathlib, sys, json
 sys.path.append("src")
-from detector import load_triples, detect_infections
-from healer   import heal
 
-triples   = load_triples("data/mini_static.csv")
-infected  = detect_infections(triples)
-log, clean = [], []
+from detector       import load_triples, detect_infections
+from healer         import heal
+from fsm            import FSMController
+from memory_agent   import recall, remember
 
-for row in triples:
-    tags   = [t for (tr, t) in infected if tr is row]
-    healed = row
-    for tag in tags:
-        healed = heal(dict(healed), tag) if healed else None
-    state  = "q0" if tags else "q2"
-    if healed and tags: state = "q1"
-    if not healed:      state = "qX"
-    if healed: clean.append(healed)
-    log.append({"triple": row, "tags": tags, "state": state})
+triples  = load_triples("data/mini_static.csv")
+log      = {"q0":0, "q1":0, "q2":0, "qX":0}
+cleaned  = []
 
-print(f"🏥 {len(infected)} infected | ✅ {len([l for l in log if l['state']=='q1'])} healed | 🚧 {len([l for l in log if l['state']=='qX'])} quarantined")
-pathlib.Path('results').mkdir(exist_ok=True)
-with open('results/log.json','w') as f: json.dump(log,f,indent=2)
-print('results/log.json written')
+for t in triples:
+    cached_fix = recall(t)
+    if cached_fix: t = cached_fix
+
+    fsm = FSMController(t, detect_infections, heal)
+    state, healed = fsm.step()
+
+    if state == "q1": remember(t, healed)   # store fix for future
+    log[state] += 1
+    if healed: cleaned.append(healed)
+
+print(f"🏥 {log['q0']} infected | ✅ {log['q1']} healed | 🚧 {log['qX']} quarantined | 🟢 {log['q2']} stable")
+
+pathlib.Path("results").mkdir(exist_ok=True)
+with open("results/log.json", "w") as f:
+    json.dump({"states": log}, f, indent=2)
+print("📝  results/log.json updated")
