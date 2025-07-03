@@ -1,15 +1,23 @@
 import csv, yaml, hashlib
 from pathlib import Path
+from src.confidence_calculator import ConfidenceCalculator
 
 CONFIG = yaml.safe_load(open("config/infection_rules.yaml"))
 CUTOFF = CONFIG["confidence_cutoff"]
 FUNC_PRED = set(CONFIG["functional_predicates"])
 TYPE_MAP = CONFIG["type_map"]
 
+# Initialize the confidence calculator
+confidence_calculator = ConfidenceCalculator()
+
 def load_triples(path="data/mini_static.csv"):
     with open(path, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
-        return list(reader)
+        triples = list(reader)
+        
+    # Calculate confidence scores using Z-score normalization
+    triples = confidence_calculator.calculate_scores(triples)
+    return triples
 
 def detect_infections(triples):
     # key = (s,p); store best triple for R2

@@ -1,0 +1,15 @@
+# Configurable weights for confidence score calculation
+# These weights determine the importance of each factor in the final confidence score
+
+weights:
+  # Semantic similarity measures how meaningful the triple is
+  semantic_similarity: 0.4
+  
+  # Relation consistency measures how well the triple follows expected patterns
+  relation_consistency: 0.3
+  
+  # Data completeness measures how complete the information is
+  data_completeness: 0.3
+
+# You can adjust these weights to prioritize different aspects of data quality
+# The weights should add up to 1.0 for predictable scaling
