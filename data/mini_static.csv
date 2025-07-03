@@ -6,3 +6,19 @@ Person3,birthDate,1990,1.0
 Person4,birthDate,1990-01-01,1.0
 Person5,birthPlace,London,0.55
 Person5,birthPlace,Paris,0.95
+Person5,birthPlace,Berlin,0.75
+Person6,birthDate,2000,1.0
+Person6,birthDate,2001,0.9
+Person7,birthDate,January 1st 2020,0.8
+Person8,birthPlace,Tokyo,0.58
+Person9,birthPlace,NewYork,0.85
+Person9,birthPlace,Los Angeles,0.90
+Person10,socialSecurityNumber,123-45-6789,1.0
+Person10,socialSecurityNumber,987-65-4321,0.95
+Person11,birthDate,19901010,0.75
+Person12,age,twenty,0.85
+Person13,works_at,Company2,0.55
+Person14,birthPlace,Paris123,0.92
+Company2,located_in,Country2,0.59
+Person15,birthDate,1985,0.97
+Person15,birthDate,1985-06-15,0.82

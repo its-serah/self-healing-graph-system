@@ -1,0 +1,10 @@
+{
+  "original_count": 23,
+  "cleaned_count": 15,
+  "infections": 20,
+  "infection_types": {
+    "R1": 4,
+    "R2": 10,
+    "R3": 6
+  }
+}

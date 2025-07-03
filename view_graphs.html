@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DocRED Knowledge Graph Visualization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            width: 98%;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            padding: 20px;
+            color: #333;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .graphs {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .graph-container {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .header {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            font-weight: bold;
+        }
+        iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+        }
+        .legend {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .legend h3 {
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .color-box {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 3px;
+        }
+        .description {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            line-height: 1.5;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        @media (min-width: 1200px) {
+            .graphs {
+                flex-direction: row;
+            }
+            .graph-container {
+                width: 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DocRED Knowledge Graph Visualization</h1>
+        
+        <div class="description">
+            <h3>About this Visualization</h3>
+            <p>This visualization shows the DocRED knowledge graph before and after the healing process.</p>
+            <p>The original graph highlights infected triples based on detection rules, while the cleaned graph shows the result after healing.</p>
+        </div>
+        
+        <div class="graphs">
+            <div class="graph-container">
+                <div class="header">Original Graph (with infections highlighted)</div>
+                <iframe src="original_graph.html"></iframe>
+            </div>
+            <div class="graph-container">
+                <div class="header">Cleaned Graph (after healing)</div>
+                <iframe src="cleaned_graph.html"></iframe>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <h3>Legend</h3>
+            <h4>Node Types</h4>
+            <div class="legend-item">
+                <div class="color-box" style="background-color: #3498db;"></div>
+                <div>Person</div>
+            </div>
+            <div class="legend-item">
+                <div class="color-box" style="background-color: #e74c3c;"></div>
+                <div>Company</div>
+            </div>
+            <div class="legend-item">
+                <div class="color-box" style="background-color: #2ecc71;"></div>
+                <div>Location</div>
+            </div>
+            <div class="legend-item">
+                <div class="color-box" style="background-color: #f39c12;"></div>
+                <div>Date</div>
+            </div>
+            <div class="legend-item">
+                <div class="color-box" style="background-color: #95a5a6;"></div>
+                <div>Other</div>
+            </div>
+            
+            <h4>Infection Types</h4>
+            <div class="legend-item">
+                <div class="color-box" style="background-color: #e74c3c;"></div>
+                <div>R1: Low confidence (< 0.60)</div>
+            </div>
+            <div class="legend-item">
+                <div class="color-box" style="background-color: #9b59b6;"></div>
+                <div>R2: Duplicate functional predicates</div>
+            </div>
+            <div class="legend-item">
+                <div class="color-box" style="background-color: #f39c12;"></div>
+                <div>R3: Schema violations</div>
+            </div>
+        </div>
+        
+        <div class="description">
+            <h3>How to use</h3>
+            <ul>
+                <li>Click and drag to move the graph</li>
+                <li>Scroll to zoom in/out</li>
+                <li>Hover over nodes and edges to see details</li>
+                <li>Click on nodes to focus on them</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Cleaned Knowledge Graph (after healing)</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" rel="stylesheet" type="text/css">
+        <style type="text/css">
+            #mynetwork {
+                height: 750px;
+                width: 100%;
+                border: 1px solid lightgray;
+            }
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+            h1 {
+                color: #333;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Cleaned Knowledge Graph (after healing)</h1>
+        <div id="mynetwork"></div>
+        <script type="text/javascript">
+            // Create nodes and edges
+            var nodes = new vis.DataSet([{"id": "Person1", "label": "Person1", "color": "#3498db", "title": "Type: person"}, {"id": "Company1", "label": "Company1", "color": "#e74c3c", "title": "Type: company"}, {"id": "Person2", "label": "Person2", "color": "#3498db", "title": "Type: person"}, {"id": "City1", "label": "City1", "color": "#2ecc71", "title": "Type: location"}, {"id": "Country1", "label": "Country1", "color": "#2ecc71", "title": "Type: location"}, {"id": "Person3", "label": "Person3", "color": "#3498db", "title": "Type: person"}, {"id": "1990-01-01", "label": "1990-01-01", "color": "#f39c12", "title": "Type: date"}, {"id": "Person4", "label": "Person4", "color": "#3498db", "title": "Type: person"}, {"id": "Person5", "label": "Person5", "color": "#3498db", "title": "Type: person"}, {"id": "London", "label": "London", "color": "#95a5a6", "title": "Type: other"}, {"id": "Person6", "label": "Person6", "color": "#3498db", "title": "Type: person"}, {"id": "2000-01-01", "label": "2000-01-01", "color": "#f39c12", "title": "Type: date"}, {"id": "Person7", "label": "Person7", "color": "#3498db", "title": "Type: person"}, {"id": "January 1st 2020", "label": "January 1st 2020", "color": "#f39c12", "title": "Type: date"}, {"id": "Person8", "label": "Person8", "color": "#3498db", "title": "Type: person"}, {"id": "Tokyo", "label": "Tokyo", "color": "#95a5a6", "title": "Type: other"}, {"id": "Person11", "label": "Person11", "color": "#3498db", "title": "Type: person"}, {"id": "19901010", "label": "19901010", "color": "#f39c12", "title": "Type: date"}, {"id": "Person12", "label": "Person12", "color": "#3498db", "title": "Type: person"}, {"id": "twenty", "label": "twenty", "color": "#95a5a6", "title": "Type: other"}, {"id": "Person13", "label": "Person13", "color": "#3498db", "title": "Type: person"}, {"id": "Company2", "label": "Company2", "color": "#e74c3c", "title": "Type: company"}, {"id": "Person14", "label": "Person14", "color": "#3498db", "title": "Type: person"}, {"id": "Paris123", "label": "Paris123", "color": "#95a5a6", "title": "Type: other"}, {"id": "Country2", "label": "Country2", "color": "#2ecc71", "title": "Type: location"}, {"id": "Person15", "label": "Person15", "color": "#3498db", "title": "Type: person"}, {"id": "1985-01-01", "label": "1985-01-01", "color": "#f39c12", "title": "Type: date"}]);
+            var edges = new vis.DataSet([{"from": "Person1", "to": "Company1", "label": "works_at", "color": "#000000", "width": 5.0, "title": "works_at (confidence: 1.0)"}, {"from": "Company1", "to": "Country1", "label": "located_in", "color": "#000000", "width": 5.0, "title": "located_in (confidence: 1.0)"}, {"from": "Person2", "to": "City1", "label": "lives_in", "color": "#000000", "width": 5.0, "title": "lives_in (confidence: 1.0)"}, {"from": "Person3", "to": "1990-01-01", "label": "birthDate", "color": "#000000", "width": 4.0, "title": "birthDate (confidence: 0.8)"}, {"from": "Person4", "to": "1990-01-01", "label": "birthDate", "color": "#000000", "width": 5.0, "title": "birthDate (confidence: 1.0)"}, {"from": "Person5", "to": "London", "label": "birthPlace", "color": "#000000", "width": 2.75, "title": "birthPlace (confidence: 0.55)"}, {"from": "Person6", "to": "2000-01-01", "label": "birthDate", "color": "#000000", "width": 4.0, "title": "birthDate (confidence: 0.8)"}, {"from": "Person7", "to": "January 1st 2020", "label": "birthDate", "color": "#000000", "width": 4.0, "title": "birthDate (confidence: 0.8)"}, {"from": "Person8", "to": "Tokyo", "label": "birthPlace", "color": "#000000", "width": 2.9, "title": "birthPlace (confidence: 0.58)"}, {"from": "Person11", "to": "19901010", "label": "birthDate", "color": "#000000", "width": 3.75, "title": "birthDate (confidence: 0.75)"}, {"from": "Person12", "to": "twenty", "label": "age", "color": "#000000", "width": 4.25, "title": "age (confidence: 0.85)"}, {"from": "Person13", "to": "Company2", "label": "works_at", "color": "#000000", "width": 2.75, "title": "works_at (confidence: 0.55)"}, {"from": "Company2", "to": "Country2", "label": "located_in", "color": "#000000", "width": 2.9499999999999997, "title": "located_in (confidence: 0.59)"}, {"from": "Person14", "to": "Paris123", "label": "birthPlace", "color": "#000000", "width": 4.6000000000000005, "title": "birthPlace (confidence: 0.92)"}, {"from": "Person15", "to": "1985-01-01", "label": "birthDate", "color": "#000000", "width": 4.0, "title": "birthDate (confidence: 0.8)"}]);
+            
+            // Create network
+            var container = document.getElementById('mynetwork');
+            var data = {
+                nodes: nodes,
+                edges: edges
+            };
+            var options = {
+                physics: {
+                    forceAtlas2Based: {
+                        gravitationalConstant: -50,
+                        centralGravity: 0.01,
+                        springLength: 100,
+                        springConstant: 0.08
+                    },
+                    maxVelocity: 50,
+                    solver: "forceAtlas2Based",
+                    timestep: 0.35,
+                    stabilization: {iterations: 150}
+                },
+                edges: {
+                    smooth: {type: "continuous"},
+                    font: {
+                        size: 12,
+                        face: "arial",
+                        align: "middle"
+                    },
+                    arrows: {
+                        to: {enabled: true, scaleFactor: 0.5}
+                    }
+                },
+                nodes: {
+                    shape: "dot",
+                    size: 16,
+                    font: {
+                        size: 14,
+                        face: "arial"
+                    },
+                    margin: 10
+                },
+                interaction: {
+                    hover: true,
+                    navigationButtons: true,
+                    keyboard: true
+                }
+            };
+            var network = new vis.Network(container, data, options);
+        </script>
+    </body>
+    </html>
+    
